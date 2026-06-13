@@ -1,9 +1,9 @@
 /*
 ═══════════════════════════════════════════
-VECTUZ — main.js (updated)
+VECTUZ — main.js (updated, bug-fixed)
 ═══════════════════════════════════════════
 */
-
+ 
 /* ── THEME GUARD ── */
 (function () {
   var saved = localStorage.getItem('theme') || 'dark';
@@ -13,7 +13,7 @@ VECTUZ — main.js (updated)
     document.documentElement.removeAttribute('data-theme');
   }
 })();
-
+ 
 /* ── CUBE COLOURS ── */
 var SCRAMBLED = {
   front:  ['#e84444','#f5c842','#3a8fe8','#00c853','#f0ece4','#e87a00','#3a8fe8','#e84444','#f5c842'],
@@ -23,7 +23,7 @@ var SCRAMBLED = {
   top:    ['#f5c842','#3a8fe8','#e87a00','#e84444','#f0ece4','#3a8fe8','#00c853','#e84444','#f5c842'],
   bottom: ['#f0ece4','#00c853','#3a8fe8','#f5c842','#e84444','#e87a00','#3a8fe8','#f0ece4','#00c853'],
 };
-
+ 
 var SOLVED = {
   front:  Array(9).fill('#e84444'),
   back:   Array(9).fill('#e87a00'),
@@ -32,7 +32,7 @@ var SOLVED = {
   top:    Array(9).fill('#f5c842'),
   bottom: Array(9).fill('#f0ece4'),
 };
-
+ 
 /* ── BUILD CUBE ── */
 function buildCube(container, startSolved) {
   container.innerHTML = '';
@@ -51,7 +51,7 @@ function buildCube(container, startSolved) {
     container.appendChild(face);
   });
 }
-
+ 
 /* ── ANIMATE: scrambled → solved ── */
 function animateSolve(cube, onDone) {
   var faces = cube.querySelectorAll('.cube-face');
@@ -68,7 +68,7 @@ function animateSolve(cube, onDone) {
   var total = 6 * 200 + 9 * 60 + 600;
   if (onDone) setTimeout(onDone, total);
 }
-
+ 
 /* ── ANIMATE: solved → scrambled ── */
 function animateUnsolve(cube, onDone) {
   var faces = cube.querySelectorAll('.cube-face');
@@ -85,7 +85,7 @@ function animateUnsolve(cube, onDone) {
   var total = 6 * 200 + 9 * 60 + 600;
   if (onDone) setTimeout(onDone, total);
 }
-
+ 
 /* ── SCATTER ── */
 function scatterCube(cube) {
   var cubies = cube.querySelectorAll('.cubie');
@@ -99,12 +99,12 @@ function scatterCube(cube) {
     c.style.opacity = '0.3';
   });
 }
-
+ 
 /* ── PAYMENT TICKER ── */
 function initPaymentTicker() {
   var track = document.getElementById('ticker-track');
   if (!track) return;
-
+ 
   function makeItem(method) {
     var a = document.createElement('a');
     a.href = method.url;
@@ -112,7 +112,7 @@ function initPaymentTicker() {
     a.rel = 'noopener';
     a.className = 'ticker-item ticker-logo-item';
     a.title = method.name;
-
+ 
     var cubeWrap = document.createElement('div');
     cubeWrap.className = 'ticker-cube-wrap';
     var scene = document.createElement('div');
@@ -123,10 +123,9 @@ function initPaymentTicker() {
     scene.appendChild(cube);
     cubeWrap.appendChild(scene);
     a.appendChild(cubeWrap);
-
+ 
     var logoWrap = document.createElement('div');
     logoWrap.className = 'ticker-logo-wrap';
-
     if (method.logo && typeof BANK_LOGOS !== 'undefined' && BANK_LOGOS[method.logo]) {
       var img = document.createElement('img');
       img.src = BANK_LOGOS[method.logo];
@@ -144,7 +143,7 @@ function initPaymentTicker() {
       logoWrap.appendChild(txt);
     }
     a.appendChild(logoWrap);
-
+ 
     a.addEventListener('mouseenter', function () {
       logoWrap.style.opacity = '0';
       logoWrap.style.transform = 'scale(0.8)';
@@ -159,68 +158,37 @@ function initPaymentTicker() {
       cubeWrap.style.transform = 'scale(0.8)';
       cube.style.animation = '';
     });
-
+ 
     return a;
   }
-
+ 
   if (typeof PAYMENT_METHODS !== 'undefined') {
     PAYMENT_METHODS.forEach(function (m) { track.appendChild(makeItem(m)); });
     PAYMENT_METHODS.forEach(function (m) { track.appendChild(makeItem(m)); });
   }
 }
-
+ 
 /*
 ═══════════════════════════════════════════
 PORTFOLIO SLIDES — images matched to category
 ═══════════════════════════════════════════
 */
 var PORTFOLIO_SLIDES = [
-  {
-    label: 'Restaurant Site',
-    icon: '🍽',
-    img: 'assets/sample-restaurant.jpg',
-    alt: 'Restaurant dish presentation'
-  },
-  {
-    label: 'E-Commerce Store',
-    icon: '🛍',
-    img: 'assets/sample-tech.jpg',
-    alt: 'E-commerce shopping concept'
-  },
-  {
-    label: 'Salon Booking',
-    icon: '💇',
-    img: 'assets/sample-salon.jpg',
-    alt: 'Salon beauty portrait'
-  },
-  {
-    label: 'Real Estate',
-    icon: '🏡',
-    img: 'assets/sample-realestate.jpg',
-    alt: 'Real estate property'
-  },
-  {
-    label: 'Fashion Brand',
-    icon: '👗',
-    img: 'assets/sample-fashion.jpg',
-    alt: 'Fashion brand street style'
-  },
-  {
-    label: 'Tech Startup',
-    icon: '💻',
-    img: 'assets/sample-tech.jpg',
-    alt: 'Tech startup product showcase'
-  },
+  { label: 'Restaurant Site',  icon: '🍽', img: 'assets/sample-restaurant.jpg', alt: 'Restaurant dish presentation' },
+  { label: 'E-Commerce Store', icon: '🛍', img: 'assets/sample-tech.jpg',       alt: 'E-commerce shopping concept' },
+  { label: 'Salon Booking',    icon: '💇', img: 'assets/sample-salon.jpg',      alt: 'Salon beauty portrait' },
+  { label: 'Real Estate',      icon: '🏡', img: 'assets/sample-realestate.jpg', alt: 'Real estate property' },
+  { label: 'Fashion Brand',    icon: '👗', img: 'assets/sample-fashion.jpg',    alt: 'Fashion brand street style' },
+  { label: 'Tech Startup',     icon: '💻', img: 'assets/sample-tech.jpg',       alt: 'Tech startup product showcase' },
 ];
-
+ 
 function initPortfolioCarousel() {
   var track = document.getElementById('portfolio-track');
   if (!track) return;
-
+ 
   function makeSlide(item) {
     var div = document.createElement('div');
     div.className = 'portfolio-slide';
-
     if (item.img) {
       var img = document.createElement('img');
       img.src = item.img;
@@ -240,24 +208,23 @@ function initPortfolioCarousel() {
       ph.appendChild(txt);
       div.appendChild(ph);
     }
-
     var label = document.createElement('div');
     label.className = 'portfolio-slide-label';
     label.textContent = item.label;
     div.appendChild(label);
-
     return div;
   }
-
+ 
   PORTFOLIO_SLIDES.forEach(function (s) { track.appendChild(makeSlide(s)); });
   PORTFOLIO_SLIDES.forEach(function (s) { track.appendChild(makeSlide(s)); });
 }
+ 
 /* ── LOADER ── */
 function initLoader() {
   var loader = document.getElementById('loader');
   var loaderCube = document.getElementById('loader-cube');
   if (!loader || !loaderCube) return;
-
+ 
   buildCube(loaderCube, false);
   setTimeout(function () {
     animateSolve(loaderCube, function () {
@@ -265,25 +232,27 @@ function initLoader() {
     });
   }, 600);
 }
-
+ 
 /* ── OFFLINE DETECTION ── */
 function initOffline() {
   var overlay = document.getElementById('offline-overlay');
   var cube = document.getElementById('offline-cube');
   if (!overlay || !cube) return;
-
+ 
   function showOffline() {
     buildCube(cube, false);
     overlay.classList.add('show');
     setTimeout(function () { scatterCube(cube); }, 700);
   }
-  function hideOffline() { overlay.classList.remove('show'); }
-
+  function hideOffline() {
+    overlay.classList.remove('show');
+  }
+ 
   if (!navigator.onLine) showOffline();
   window.addEventListener('offline', showOffline);
   window.addEventListener('online', hideOffline);
 }
-
+ 
 /* ── PACKAGE DATA ── */
 var PACKAGES = {
   starter: {
@@ -325,8 +294,7 @@ var PACKAGES = {
     ],
   },
   max: {
-    name: 'MAX', price: 'KES 200k–300k',
-    color: '#9b5de5',
+    name: 'MAX', price: 'KES 200k–300k', color: '#9b5de5',
     tagline: 'Total digital transformation.',
     features: [
       { title: 'Custom Web Application', desc: 'A fully bespoke web app built around your business processes — portals, dashboards, automation, workflows.' },
@@ -344,6 +312,7 @@ var PACKAGES = {
     ],
   },
 };
+ 
 /* ── PACKAGE MODAL ── */
 function initPackageModals() {
   var modal = document.getElementById('package-modal');
@@ -351,20 +320,20 @@ function initPackageModals() {
   var modalBody = document.getElementById('modal-body');
   var closeBtn = document.getElementById('modal-close');
   if (!modal) return;
-
+ 
   var loopActive = false;
-
+ 
   function openModal(packageKey) {
     var pkg = PACKAGES[packageKey];
     if (!pkg) return;
-
+ 
     var featuresHTML = pkg.features.map(function (f) {
       return '<div class="modal-feature">' +
         '<div class="modal-feature-title" style="color:' + pkg.color + '">✓ ' + f.title + '</div>' +
         '<div class="modal-feature-desc">' + f.desc + '</div>' +
         '</div>';
     }).join('');
-
+ 
     modalBody.innerHTML =
       '<div class="modal-header">' +
         '<div class="modal-plan-name" style="color:' + pkg.color + '">' + pkg.name + '</div>' +
@@ -374,18 +343,18 @@ function initPackageModals() {
       '<div class="modal-features-grid">' + featuresHTML + '</div>' +
       '<a href="#contact" class="modal-cta" style="background:' + pkg.color + ';color:' +
         (packageKey === 'max' ? '#fff' : '#090b0e') + '" id="modal-cta-btn">Get Started →</a>';
-
+ 
     buildCube(modalCube, false);
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
     loopActive = true;
-
+ 
     var ewaves = [
       document.getElementById('ewave1'),
       document.getElementById('ewave2'),
       document.getElementById('ewave3'),
     ];
-
+ 
     if (packageKey === 'max') {
       modalCube.classList.add('energy-mode');
       ewaves.forEach(function (w) { if (w) w.classList.add('active'); });
@@ -393,13 +362,13 @@ function initPackageModals() {
       modalCube.classList.remove('energy-mode');
       ewaves.forEach(function (w) { if (w) w.classList.remove('active'); });
     }
-
+ 
     setTimeout(function () { scatterCubeModal(modalCube); }, 350);
     setTimeout(function () {
       buildCube(modalCube, false);
       loopSolve();
     }, 1600);
-
+ 
     function loopSolve() {
       if (!loopActive) return;
       animateSolve(modalCube, function () {
@@ -412,7 +381,7 @@ function initPackageModals() {
         }, 800);
       });
     }
-
+ 
     setTimeout(function () {
       var ctaBtn = document.getElementById('modal-cta-btn');
       if (ctaBtn) {
@@ -425,7 +394,7 @@ function initPackageModals() {
       }
     }, 100);
   }
-
+ 
   function scatterCubeModal(cube) {
     var faces = cube.querySelectorAll('.cube-face');
     faces.forEach(function (face) {
@@ -437,7 +406,7 @@ function initPackageModals() {
       face.style.opacity = '0';
     });
   }
-
+ 
   function closeModal() {
     loopActive = false;
     modal.classList.remove('show');
@@ -448,7 +417,7 @@ function initPackageModals() {
       if (w) w.classList.remove('active');
     });
   }
-
+ 
   document.querySelectorAll('.learn-more-btn').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -456,25 +425,26 @@ function initPackageModals() {
       openModal(btn.getAttribute('data-package'));
     });
   });
-
-  closeBtn.addEventListener('click', closeModal);
+ 
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+ 
   var backdrop = modal.querySelector('.modal-backdrop');
   if (backdrop) backdrop.addEventListener('click', closeModal);
 }
-
+ 
 /* ── SUCCESS OVERLAY ── */
 function initSuccessOverlay() {
   var overlay = document.getElementById('form-success-overlay');
   var cube = document.getElementById('success-cube');
   if (!overlay || !cube) return;
-
+ 
   var loopActive = false;
-
+ 
   window.showSuccessOverlay = function () {
     buildCube(cube, false);
     overlay.classList.add('show');
     loopActive = true;
-
+ 
     function loop() {
       if (!loopActive) return;
       animateSolve(cube, function () {
@@ -488,19 +458,20 @@ function initSuccessOverlay() {
       });
     }
     loop();
-
+ 
     setTimeout(function () {
       loopActive = false;
       overlay.classList.remove('show');
     }, 5000);
   };
 }
-
+ 
 /* ── SCROLL REVEAL ── */
 function initScrollReveal() {
   var targets = document.querySelectorAll(
     '.service-card, .pricing-card, .process-step, .why-point, .stat, .trust-item'
   );
+ 
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
@@ -510,7 +481,7 @@ function initScrollReveal() {
       }
     });
   }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-
+ 
   targets.forEach(function (el, i) {
     el.style.opacity = '0';
     el.style.transform = 'translateY(28px) scale(.98)';
@@ -520,7 +491,7 @@ function initScrollReveal() {
     observer.observe(el);
   });
 }
-
+ 
 /* ── SMOOTH SCROLL ── */
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
@@ -533,7 +504,7 @@ function initSmoothScroll() {
     });
   });
 }
-
+ 
 /* ── COUNTERS ── */
 function animateCounters() {
   document.querySelectorAll('.stat-num[data-target]').forEach(function (el) {
@@ -542,7 +513,7 @@ function animateCounters() {
     var duration = 1800;
     var start = performance.now();
     var isInt = Number.isInteger(target);
-
+ 
     function update(now) {
       var progress = Math.min((now - start) / duration, 1);
       var eased = 1 - Math.pow(1 - progress, 3);
@@ -553,21 +524,21 @@ function animateCounters() {
     requestAnimationFrame(update);
   });
 }
-
+ 
 /* ── CONTACT FORM ── */
 function initForm() {
   var form = document.getElementById('contact-form');
   if (!form) return;
-
+ 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     var btn = form.querySelector('.form-submit');
     var originalText = btn.textContent;
     btn.textContent = 'Sending…';
     btn.disabled = true;
-
+ 
     var googleScriptUrl = 'https://script.google.com/macros/s/AKfycby6mIxaLXiOa0ZqxL93uf31KNtOeMVvJ3s2Bo4QzW_dhAEeytwcyh5dv1DIpI13HLmZAg/exec';
-
+ 
     try {
       await fetch(googleScriptUrl, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
       form.reset();
@@ -586,29 +557,31 @@ function initForm() {
     }
   });
 }
-
+ 
 /* ── NAV OFFSET ── */
 function initNavOffset() {
   var banner = document.querySelector('.discount-banner');
   var nav = document.querySelector('nav');
   if (!banner || !nav) return;
-
+ 
   var h = banner.offsetHeight;
   nav.style.top = h + 'px';
+ 
   window.addEventListener('scroll', function () {
     nav.style.top = window.scrollY > h ? '0' : (h - window.scrollY) + 'px';
   });
 }
-
+ 
 /* ── THEME TOGGLE ── */
 function initThemeToggle() {
   var btn = document.getElementById('theme-toggle');
   if (!btn) return;
   var icon = btn.querySelector('.toggle-icon');
-
+ 
   function getCurrentTheme() {
     return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   }
+ 
   function applyTheme(theme) {
     if (theme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
@@ -618,13 +591,14 @@ function initThemeToggle() {
     localStorage.setItem('theme', theme);
     if (icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
   }
-
+ 
   applyTheme(getCurrentTheme());
+ 
   btn.addEventListener('click', function () {
     applyTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark');
   });
 }
-
+ 
 /* ── TERMS MODAL ── */
 function initTermsModal() {
   var openBtn = document.getElementById('open-terms');
@@ -633,7 +607,7 @@ function initTermsModal() {
   var closeBtn = document.getElementById('terms-close');
   var ctaBtn = document.getElementById('terms-cta-btn');
   if (!modal) return;
-
+ 
   function openTerms(e) {
     if (e) e.preventDefault();
     modal.classList.add('show');
@@ -643,16 +617,16 @@ function initTermsModal() {
     modal.classList.remove('show');
     document.body.style.overflow = '';
   }
-
+ 
   if (openBtn) openBtn.addEventListener('click', openTerms);
   if (openBtnBanner) openBtnBanner.addEventListener('click', openTerms);
   if (closeBtn) closeBtn.addEventListener('click', closeTerms);
   if (ctaBtn) ctaBtn.addEventListener('click', closeTerms);
-
+ 
   var backdrop = modal.querySelector('.terms-backdrop');
   if (backdrop) backdrop.addEventListener('click', closeTerms);
 }
-
+ 
 /* ── PRICING CARD CLICK ── */
 function initPricingCardClick() {
   document.querySelectorAll('.pricing-card').forEach(function (card) {
@@ -669,7 +643,7 @@ function initPricingCardClick() {
     });
   });
 }
-
+ 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded', function () {
   initLoader();
@@ -685,11 +659,14 @@ document.addEventListener('DOMContentLoaded', function () {
   initNavOffset();
   initThemeToggle();
   initTermsModal();
-
+ 
   var statsBar = document.querySelector('.stats-bar');
   if (statsBar) {
     var obs = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) { animateCounters(); obs.disconnect(); }
+      if (entries[0].isIntersecting) {
+        animateCounters();
+        obs.disconnect();
+      }
     }, { threshold: 0.5 });
     obs.observe(statsBar);
   }
