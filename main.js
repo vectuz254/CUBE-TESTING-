@@ -1,3 +1,4 @@
+
 /*
 ═══════════════════════════════════════════
 VECTUZ — main.js (updated, bug-fixed)
@@ -219,18 +220,11 @@ function initPortfolioCarousel() {
   PORTFOLIO_SLIDES.forEach(function (s) { track.appendChild(makeSlide(s)); });
 }
  
-/* ── LOADER ── */
+/* ── LOADER (disabled) ── */
 function initLoader() {
   var loader = document.getElementById('loader');
-  var loaderCube = document.getElementById('loader-cube');
-  if (!loader || !loaderCube) return;
- 
-  buildCube(loaderCube, false);
-  setTimeout(function () {
-    animateSolve(loaderCube, function () {
-      setTimeout(function () { loader.classList.add('hidden'); }, 400);
-    });
-  }, 600);
+  if (!loader) return;
+  loader.classList.add('hidden');
 }
  
 /* ── OFFLINE DETECTION ── */
