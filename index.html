@@ -1,472 +1,578 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VECTUZ | Web Design Kenya</title>
-  <meta name="description" content="Custom websites, e-commerce & M-Pesa checkout — built fast for Kenyan SMEs. Delivered in as little as 7 business days."/>
-  <link rel="icon" href="logo.png" type="image/png"/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VECTUZ | Quantitative Innovation & Logistics</title>
+    
+    <style>
+        /* ==========================================
+           1. CORE VARIABLES & RESET
+           ========================================== */
+        :root {
+            --bg-dark: #0a192f;
+            --bg-card: #112240;
+            --text-bright: #64ffda;
+            --text-light: #ccd6f6;
+            --text-muted: #8892b0;
+            --white: #ffffff;
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        body {
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+           2. ANIMATION UTILITIES (Scroll-Triggered)
+           ========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition-smooth);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================
+           3. NAVIGATION LAYER
+           ========================================== */
+        header {
+            background-color: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-bright);
+            letter-spacing: 3px;
+            text-decoration: none;
+        }
+
+        nav h4 { display: none; } /* Accessibility structural placeholder */
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        nav a:hover {
+            color: var(--text-bright);
+        }
+
+        /* ==========================================
+           4. HERO SECTION WITH 3D CANVAS
+           ========================================== */
+        .hero-container {
+            min-height: 90vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 4rem;
+        }
+
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 5rem;
+            }
+            .canvas-container {
+                order: -1;
+            }
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        .hero-text h1 span {
+            color: var(--text-bright);
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--text-bright);
+            color: var(--text-bright);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            background: transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .cta-btn:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        canvas {
+            max-width: 100%;
+            cursor: pointer;
+        }
+
+        /* ==========================================
+           5. PRICING ARCHITECTURE
+           ========================================== */
+        .section-padding {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 3rem;
+        }
+
+        .section-title span {
+            color: var(--text-bright);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid transparent;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--text-bright);
+            transform: scale(1.03);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(2, 12, 27, 0.7);
+        }
+
+        .tier-name {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price {
+            font-size: 3rem;
+            color: var(--white);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        .features-list li {
+            margin-bottom: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            color: var(--text-bright);
+            font-weight: bold;
+        }
+
+        /* ==========================================
+           6. FAQ ACCORDION ENGINE
+           ========================================== */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background-color: var(--bg-card);
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            overflow: hidden;
+            border-left: 3px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-item.active {
+            border-left-color: var(--text-bright);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--white);
+            user-select: none;
+        }
+
+        .faq-icon {
+            transition: var(--transition-smooth);
+            font-size: 1.2rem;
+            color: var(--text-bright);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            color: var(--text-muted);
+            padding: 0 1.5rem;
+        }
+
+        /* ==========================================
+           7. TERMS & CONDITIONS FRAMEWORK
+           ========================================== */
+        .tc-box {
+            background-color: var(--bg-card);
+            border-radius: 6px;
+            padding: 2.5rem;
+            max-height: 400px;
+            overflow-y: scroll;
+            border: 1px solid rgba(136, 146, 176, 0.2);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .tc-box h3 {
+            color: var(--white);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .tc-box h3:first-child {
+            margin-top: 0;
+        }
+
+        /* Custom Scrollbar for T&C Box */
+        .tc-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        .tc-box::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        .tc-box::-webkit-scrollbar-thumb {
+            background: var(--bg-card);
+            border: 2px solid var(--bg-dark);
+            border-radius: 4px;
+        }
+        .tc-box::-webkit-scrollbar-thumb:hover {
+            background: var(--text-bright);
+        }
+
+        /* ==========================================
+           8. FOOTER METADATA
+           ========================================== */
+        footer {
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background-color: #020c1b;
+        }
+    </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════ OFFLINE OVERLAY ══════════════════════════════ -->
-<div id="offline-overlay" class="offline-overlay">
-  <div class="offline-cube-scene">
-    <div class="offline-cube" id="offline-cube"></div>
-  </div>
-  <h2 class="offline-title">You're Offline</h2>
-  <p class="offline-msg">Your device is disconnected. Please check your internet connection.</p>
-  <div class="offline-dots">
-    <span></span><span></span><span></span>
-  </div>
-</div>
+    <!-- Navigational Header Layer -->
+    <header>
+        <a href="#home" class="logo">VECTUZ</a>
+        <nav aria-label="Main Navigation">
+            <h4>Site Links</h4>
+            <ul>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#terms">Terms</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<!-- ══════════════════════════════ LOADER ══════════════════════════════ -->
-<div id="loader">
-  <div class="loader-cube-scene">
-    <div class="loader-cube" id="loader-cube"></div>
-  </div>
-</div>
+    <!-- Structural Viewports -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-container">
+            <div class="hero-text">
+                <h1>Quantized Logic.<br><span>Streamlined Logistics.</span></h1>
+                <p>Architecting algorithmic infrastructure and automated operational environments designed for mathematical optimization.</p>
+                <a href="#pricing" class="cta-btn">Explore Engine Tiers</a>
+            </div>
+            <div class="canvas-container">
+                <canvas id="rubixCanvas" width="450" height="450"></canvas>
+            </div>
+        </section>
 
-<!-- ══════════════════════════════ FORM SUCCESS OVERLAY ══════════════════════════════ -->
-<div id="form-success-overlay" class="form-success-overlay">
-  <div class="success-cube-scene">
-    <div class="success-cube" id="success-cube"></div>
-  </div>
-  <div class="success-text">
-    <div class="success-icon">✓</div>
-    <h3>Message Sent!</h3>
-    <p>We'll get back to you within a few hours.</p>
-  </div>
-</div>
+        <!-- Pricing Array Matrix -->
+        <section id="pricing" class="section-padding reveal">
+            <h2 class="section-title">Engine <span>Pricing</span></h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="tier-name">Core Deployment</div>
+                    <div class="price">$250<span>/mo</span></div>
+                    <ul class="features-list">
+                        <li>Standard automation logic modules</li>
+                        <li>Single-node data pipeline execution</li>
+                        <li>500 async requests per minute</li>
+                        <li>Latency overhead lower than 45ms</li>
+                    </ul>
+                    <a href="#home" class="cta-btn">Initialize Core</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="tier-name">Vortex Compounding</div>
+                    <div class="price">$750<span>/mo</span></div>
+                    <ul class="features-list">
+                        <li>Algorithmic vector compounding framework</li>
+                        <li>Multi-threaded real-time calculations</li>
+                        <li>Uncapped execution requests</li>
+                        <li>Dedicated cloud architecture arrays</li>
+                    </ul>
+                    <a href="#home" class="cta-btn" style="background: rgba(100, 255, 218, 0.1);">Deploy Matrix</a>
+                </div>
+            </div>
+        </section>
 
-<!-- ══════════════════════════════ PACKAGE MODAL ══════════════════════════════ -->
-<div id="package-modal" class="package-modal">
-  <div class="modal-backdrop"></div>
-  <div class="modal-content">
-    <button class="modal-close" id="modal-close">✕</button>
-    <div class="modal-cube-scene" id="modal-cube-scene">
-      <div class="modal-cube" id="modal-cube"></div>
-      <div class="energy-wave" id="ewave1"></div>
-      <div class="energy-wave delay1" id="ewave2"></div>
-      <div class="energy-wave delay2" id="ewave3"></div>
-    </div>
-    <div class="modal-body" id="modal-body">
-      <!-- filled by JS -->
-    </div>
-  </div>
-</div>
+        <!-- FAQ Responsive Accordion Array -->
+        <section id="faq" class="section-padding reveal">
+            <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What forms the baseline architecture of the VECTUZ logic models?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p style="padding-bottom: 1.5rem;">Our baseline systems combine high-speed asynchronously driven communication networks with deterministic, mathematical decision loops. This structural layer completely decouples core computation processing from front-end visual states to ensure absolute runtime execution speed.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How is execution concurrency managed across multiple processing threads?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p style="padding-bottom: 1.5rem;">The underlying software engine utilizes specialized non-blocking transaction systems that dynamically route data streams down low-resistance network channels. This architectural pattern isolates intense structural loads and mitigates bottleneck patterns automatically.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- ══════════════════════════════ DISCOUNT BANNER ══════════════════════════════ -->
-<div class="discount-banner">
-  🚀 Launch Offer — 20% OFF all packages this month <span>|</span> Fast delivery guaranteed
-</div>
+        <!-- Regulatory Terms & Conditions -->
+        <section id="terms" class="section-padding reveal">
+            <h2 class="section-title">Terms & <span>Conditions</span></h2>
+            <div class="tc-box">
+                <h3>1. Algorithmic Architecture Usage Rights</h3>
+                <p>All quantitative logic systems, script configurations, and user interfaces compiled under the VECTUZ entity remain protected under strict international code security protocols. Users are explicitly forbidden from reverse engineering, decompiling, or mapping the underlying execution loops without formalized authorization records.</p>
+                
+                <h3>2. Execution Thresholds & High Load Integrity</h3>
+                <p>System performance metrics are provided based on clean, low-latency node testing environments. VECTUZ does not accept financial or organizational liabilities caused by local ISP dropouts, erratic hardware configurations, or improper environment deployment executions performed outside standard architectural parameters.</p>
+                
+                <h3>3. Framework Variable Updates</h3>
+                <p>We reserve the structural authority to update logic arrays, price matrices, and documentation criteria dynamically to adjust to modern high-volume operational standards. Continued interaction with active environment endpoints implies binding compliance with altered protocols.</p>
+            </div>
+        </section>
+    </main>
 
-<!-- ══════════════════════════════ NAV ══════════════════════════════ -->
-<nav>
-  <a href="#home" class="logo">
-    <img src="logo.png" alt="VECTUZ"/>
-    <span class="logo-text">VECT<span>UZ</span></span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#why">Why Us</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#contact" class="nav-cta">Get Started</a></li>
-    <li>
-      <a href="mailto:vectuz9@gmail.com" class="nav-email-btn" title="Email Us">✉</a>
-    </li>
-    <li>
-      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme">
-        <span class="toggle-icon">🌙</span>
-      </button>
-    </li>
-  </ul>
-</nav>
+    <!-- Footer Meta Layout -->
+    <footer>
+        <p>&copy; 2026 VECTUZ Technologies. Engineered for continuous optimization.</p>
+    </footer>
 
-<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
-<section class="hero" id="home">
-  <div class="hero-grid" aria-hidden="true">
-    <div class="hero-grid-inner">
-      <div></div><div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div><div></div>
-      <div></div><div></div><div></div><div></div><div></div><div></div>
-    </div>
-    <div class="hero-glow"></div>
-  </div>
+    <!-- ==========================================
+       9. JAVASCRIPT LOGIC SUITE
+       ========================================== -->
+    <script>
+        /* ------------------------------------------
+           A. INTERSECTION OBSERVER ENGINE (Visual Animations)
+           ------------------------------------------ */
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-  <!-- Hand holding phone with scrolling site preview -->
-  <div class="hero-phone-mockup" aria-hidden="true">
-    <div class="hero-phone-screen">
-      <div class="hero-phone-scroll">
-        <img src="assets/hero-phone-screen-1.jpg" alt=""/>
-        <img src="assets/hero-phone-screen-2.jpg" alt=""/>
-        <img src="assets/hero-phone-screen-1.jpg" alt=""/>
-      </div>
-    </div>
-    <img src="assets/hero-phone.jpg" alt="" class="hero-hand-img"/>
-  </div>
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
 
-  <div class="hero-tag">Web Design Kenya</div>
-  <h1>Your Business.<br/><em>Digital</em><br/><span class="accent">Reality.</span></h1>
-  <p class="hero-sub">Custom websites, e-commerce &amp; secure checkout — built fast for Kenyan SMEs that mean business.</p>
-  <div class="hero-actions">
-    <a href="#contact" class="btn-primary">Start Your Project →</a>
-    <a href="#services" class="btn-outline">See Services</a>
-  </div>
-</section>
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
 
-<!-- ══════════════════════════════ STATS BAR ══════════════════════════════ -->
-<div class="stats-bar">
-  <div class="stat">
-    <div class="stat-num" data-target="7" data-suffix="d">7d</div>
-    <div class="stat-label">Fastest Delivery</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num" data-target="20" data-suffix="%">20%</div>
-    <div class="stat-label">Launch Discount</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num" data-target="100" data-suffix="%">100%</div>
-    <div class="stat-label">Custom Design</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">🇰🇪</div>
-    <div class="stat-label">Based in Kenya</div>
-  </div>
-</div>
+        /* ------------------------------------------
+           B. ACCORDION CONTROLLER INTERACTION
+           ------------------------------------------ */
+        const faqItems = document.querySelectorAll('.faq-item');
 
-<!-- ══════════════════════════════ SERVICES ══════════════════════════════ -->
-<section class="services" id="services">
-  <div class="services-header">
-    <div>
-      <div class="section-tag">What We Build</div>
-      <h2 class="section-title">Services Built for<br/><em>Kenyan Business</em></h2>
-    </div>
-    <p class="services-intro">Everything your SME needs to show up online — professionally, fast, and affordably.</p>
-  </div>
-  <div class="services-grid">
-    <div class="service-card">
-      <span class="service-icon">🖥️</span>
-      <div class="service-title">Custom Web Design</div>
-      <p class="service-desc">Handcrafted websites that reflect your brand identity. No templates — every pixel tailored to your business.</p>
-      <div class="service-price">Starting from KES 24,599</div>
-    </div>
-    <div class="service-card">
-      <span class="service-icon">🛒</span>
-      <div class="service-title">E-Commerce Stores</div>
-      <p class="service-desc">Sell online with product catalogues, inventory management, and a smooth buying experience for your customers.</p>
-      <div class="service-price">Starting from KES 74,999</div>
-    </div>
-    <div class="service-card">
-      <span class="service-icon">🔒</span>
-      <div class="service-title">Secure Checkout</div>
-      <p class="service-desc">M-Pesa, card, and mobile money integrations. Your customers pay safely — you get paid on time.</p>
-      <div class="service-price">Included with E-Commerce</div>
-    </div>
-    <div class="service-card">
-      <span class="service-icon">📱</span>
-      <div class="service-title">Mobile-First Design</div>
-      <p class="service-desc">Built for Kenyan users on mobile. Fast loading, touch-friendly, and beautiful on any screen size.</p>
-      <div class="service-price">Included in all packages</div>
-    </div>
-  </div>
-</section>
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
 
-<!-- ══════════════════════════════ WHY VECTUZ ══════════════════════════════ -->
-<section class="why" id="why">
-  <div class="section-tag">Why VECTUZ</div>
-  <div class="why-grid">
-    <div class="why-text">
-      <h2 class="section-title">We Turn Ideas Into<br/><em>Digital Reality</em></h2>
-      <p>Most agencies take weeks and charge a premium. We move at startup speed without cutting corners — because your business can't wait.</p>
-      <div class="why-points">
-        <div class="why-point">
-          <div class="why-point-icon">⚡</div>
-          <div class="why-point-text">
-            <strong>Speed That Impresses</strong>
-            <span>We've delivered full websites in 7 business days. Fast delivery is our standard, not the exception.</span>
-          </div>
-        </div>
-        <div class="why-point">
-          <div class="why-point-icon">🇰🇪</div>
-          <div class="why-point-text">
-            <strong>Kenya-Focused</strong>
-            <span>We understand local business needs — M-Pesa integration, Kenyan SME pricing, and your market.</span>
-          </div>
-        </div>
-        <div class="why-point">
-          <div class="why-point-icon">🎯</div>
-          <div class="why-point-text">
-            <strong>No Cookie-Cutter Sites</strong>
-            <span>Every site is unique. We design from scratch to make your business stand out online.</span>
-          </div>
-        </div>
-        <div class="why-point">
-          <div class="why-point-icon">💬</div>
-          <div class="why-point-text">
-            <strong>Ongoing Support</strong>
-            <span>We don't disappear after launch. Maintenance, updates, and changes — we're a message away.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Reset active states across all panels
+                faqItems.forEach(allNodes => {
+                    allNodes.classList.remove('active');
+                    allNodes.querySelector('.faq-answer').style.maxHeight = null;
+                });
 
-<!-- ══════════════════════════════ TRUST / SAMPLE SITES ══════════════════════════════ -->
-<section class="trust" id="trust">
-  <div class="section-tag">Design Quality</div>
-  <h2 class="section-title">Sites That<br/><em>Build Trust</em></h2>
-  <p class="portfolio-intro">A glimpse of the visual quality and polish every VECTUZ project is built to.</p>
-  <div class="trust-grid">
-    <div class="trust-item">
-      <img src="assets/sample-restaurant.jpg" alt="Restaurant brand sample"/>
-      <div class="trust-label">Restaurant</div>
-    </div>
-    <div class="trust-item">
-      <img src="assets/sample-realestate.jpg" alt="Real estate brand sample"/>
-      <div class="trust-label">Real Estate</div>
-    </div>
-    <div class="trust-item">
-      <img src="assets/sample-salon.jpg" alt="Salon brand sample"/>
-      <div class="trust-label">Salon &amp; Beauty</div>
-    </div>
-    <div class="trust-item">
-      <img src="assets/sample-fashion.jpg" alt="Fashion brand sample"/>
-      <div class="trust-label">Fashion</div>
-    </div>
-    <div class="trust-item">
-      <img src="assets/sample-tech.jpg" alt="Tech startup brand sample"/>
-      <div class="trust-label">Tech Startup</div>
-    </div>
-  </div>
-</section>
+                if (!isActive) {
+                    item.classList.add('active');
+                    // Dynamic rendering of height to accommodate variable text streams cleanly
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                }
+            });
+        });
 
-<!-- ══════════════════════════════ PORTFOLIO ══════════════════════════════ -->
-<section class="portfolio" id="portfolio">
-  <div class="section-tag">Our Work</div>
-  <h2 class="section-title">See It On<br/><em>Real Devices</em></h2>
-  <p class="portfolio-intro">A look at how our designs feel on mobile — fast, clean, and built to convert.</p>
+        /* ------------------------------------------
+           C. MATHEMATICAL 3D CANVAS RUBIK'S CUBE SIMULATOR
+           ------------------------------------------ */
+        const canvas = document.getElementById('rubixCanvas');
+        const ctx = canvas.getContext('2d');
 
-  <div class="portfolio-layout">
-    <div class="portfolio-phone-mockup">
-      <div class="portfolio-phone-screen">
-        <div class="hero-phone-scroll">
-          <img src="assets/hero-phone-screen-1.jpg" alt=""/>
-          <img src="assets/hero-phone-screen-2.jpg" alt=""/>
-          <img src="assets/hero-phone-screen-1.jpg" alt=""/>
-        </div>
-      </div>
-    </div>
+        // Initial Transformation Matrix parameters
+        let angleX = 0.45;
+        let angleY = -0.65;
+        let rotationSpeedX = 0.004;
+        let rotationSpeedY = 0.006;
+        let interactionTimer = 0;
 
-    <div class="portfolio-carousel">
-      <div class="portfolio-track" id="portfolio-track">
-        <!-- slides injected by JS, duplicated for seamless loop -->
-      </div>
-    </div>
-  </div>
-</section>
+        // Mathematical definitions for 27 points comprising a 3x3 array structure
+        const blocks = [];
+        const size = 45; // Dimensions of individual cube segments
 
-<!-- ══════════════════════════════ PROCESS ══════════════════════════════ -->
-<section class="process" id="process">
-  <div class="section-tag">How It Works</div>
-  <h2 class="section-title">From Idea to<br/><em>Live Website</em></h2>
-  <div class="process-steps">
-    <div class="process-step">
-      <div class="process-num">01</div>
-      <div class="process-step-title">Discovery Call</div>
-      <p class="process-step-desc">We learn your business, goals, and what you need the website to do for you.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-num">02</div>
-      <div class="process-step-title">Design &amp; Build</div>
-      <p class="process-step-desc">We design and develop your site — fast. You'll see progress within 48 hours.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-num">03</div>
-      <div class="process-step-title">Review &amp; Revise</div>
-      <p class="process-step-desc">You review, request changes, and we refine until every detail is right.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-num">04</div>
-      <div class="process-step-title">Launch 🚀</div>
-      <p class="process-step-desc">Your site goes live on your domain. We handle the technical handover.</p>
-    </div>
-  </div>
-</section>
+        // Generate coordinate matrices for center points of small blocks
+        for(let x = -1; x <= 1; x++) {
+            for(let y = -1; y <= 1; y++) {
+                for(let z = -1; z <= 1; z++) {
+                    blocks.push({ x: x * (size + 4), y: y * (size + 4), z: z * (size + 4) });
+                }
+            }
+        }
 
-<!-- ══════════════════════════════ PRICING ══════════════════════════════ -->
-<section class="pricing" id="pricing">
-  <div class="section-tag">Transparent Pricing</div>
-  <h2 class="section-title">Simple Packages for<br/><em>Every Budget</em></h2>
-  <div class="pricing-grid">
+        // Color maps chosen specifically to reflect high-end tech branding
+        const colors = {
+            front:  '#00d2ff', // Electric Cyan
+            back:   '#0056b3', // Deep Tech Blue
+            top:    '#64ffda', // Matrix Mint
+            bottom: '#112240', // Core Base Slate
+            right:  '#ccd6f6;'.replace(';', ''), // Silver Accent
+            left:   '#0a192f'  // Hidden Space Dark
+        };
 
-    <div class="pricing-card tier-starter" data-package="starter">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price"><sup>KES </sup>24,599</div>
-      <p class="plan-desc">Perfect for businesses that need a clean, professional online presence.</p>
-      <ul class="plan-features">
-        <li>Up to 2 pages</li>
-        <li>Mobile-responsive design</li>
-        <li>Contact form</li>
-        <li>Social media links</li>
-        <li>Google Maps integration</li>
-        <li>5-day delivery</li>
-      </ul>
-      <button class="plan-cta learn-more-btn" data-package="starter">Learn More</button>
-    </div>
+        // Standard 3D Isometric Rendering Projection Loop
+        function project(x, y, z) {
+            // Apply X-Axis rotation matrix transformations
+            let radX = angleX;
+            let cosX = Math.cos(radX);
+            let sinX = Math.sin(radX);
+            let y1 = y * cosX - z * sinX;
+            let z1 = y * sinX + z * cosX;
 
-    <div class="pricing-card tier-business" data-package="business">
-      <div class="plan-name">Business</div>
-      <div class="plan-price"><sup>KES </sup>74,999</div>
-      <p class="plan-desc">Full-featured website with e-commerce and payment integrations.</p>
-      <ul class="plan-features">
-        <li>Up to 15 pages</li>
-        <li>E-commerce / online store</li>
-        <li>M-Pesa &amp; card checkout</li>
-        <li>Custom animations</li>
-        <li>WhatsApp chat button</li>
-        <li>7 business days delivery</li>
-        <li>1 month free support</li>
-      </ul>
-      <button class="plan-cta learn-more-btn" data-package="business">Learn More</button>
-    </div>
+            // Apply Y-Axis rotation matrix transformations
+            let radY = angleY;
+            let cosY = Math.cos(radY);
+            let sinY = Math.sin(radY);
+            let x2 = x * cosY + z1 * sinY;
+            let z2 = -x * sinY + z1 * cosY;
 
-    <div class="pricing-card tier-premium" data-package="premium">
-      <div class="plan-name">Premium</div>
-      <div class="plan-price"><sup>KES </sup>120,000</div>
-      <p class="plan-desc">Enterprise-level builds with full custom functionality and integrations.</p>
-      <ul class="plan-features">
-        <li>Unlimited pages</li>
-        <li>Full custom design system</li>
-        <li>Booking / inventory systems</li>
-        <li>Admin dashboard</li>
-        <li>API integrations</li>
-        <li>3 months support</li>
-        <li>Priority delivery</li>
-      </ul>
-      <button class="plan-cta learn-more-btn" data-package="premium">Learn More</button>
-    </div>
+            // Simple Isometric Scaling calculation
+            const distance = 400;
+            const zoom = 320;
+            let scale = zoom / (distance + z2);
+            let projX = canvas.width / 2 + x2 * scale;
+            let projY = canvas.height / 2 + y1 * scale;
 
-    <div class="pricing-card tier-max" data-package="max">
-      <div class="plan-name">MAX</div>
-      <div class="plan-price"><sup>KES </sup>200k–300k</div>
-      <p class="plan-desc">Full digital transformation — a complete business system built to scale.</p>
-      <ul class="plan-features">
-        <li>Custom web application</li>
-        <li>Android + iOS mobile app</li>
-        <li>M-Pesa Daraja API integration</li>
-        <li>Custom admin dashboard</li>
-        <li>Inventory &amp; CRM system</li>
-        <li>6 months dedicated support</li>
-      </ul>
-      <button class="plan-cta learn-more-btn" data-package="max">Learn More</button>
-    </div>
+            return { x: projX, y: projY, depth: z2 };
+        }
 
-  </div>
-</section>
-
-<!-- ══════════════════════════════ CONTACT ══════════════════════════════ -->
-<section class="contact" id="contact">
-  <div class="contact-inner">
-    <div class="section-tag">Let's Work Together</div>
-    <h2 class="section-title">Start Your Project<br/><em>Today</em></h2>
-    <p>Tell us about your business and we'll get back to you within a few hours.</p>
-    <form class="contact-form" id="contact-form">
-      <div class="form-row">
-        <div class="form-field">
-          <label for="name">Your Name</label>
-          <input id="name" name="name" type="text" placeholder="Jane Wanjiru" required/>
-        </div>
-        <div class="form-field">
-          <label for="phone">Phone / WhatsApp</label>
-          <input id="phone" name="phone" type="tel" placeholder="+254 7XX XXX XXX" required/>
-        </div>
-      </div>
-      <div class="form-field">
-        <label for="business">Business Name</label>
-        <input id="business" name="business" type="text" placeholder="My Business Ltd"/>
-      </div>
-      <div class="form-field">
-        <label for="package">Service Needed</label>
-        <select id="package" name="package">
-          <option value="">Select a package</option>
-          <option>Starter — KES 24,599</option>
-          <option>Business — KES 74,999</option>
-          <option>Premium — KES 120,000</option>
-          <option>MAX — KES 200k–300k</option>
-          <option>Not sure yet</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label for="message">Tell us about your project</label>
-        <textarea id="message" name="message" rows="4" placeholder="Briefly describe your business and what you need…"></textarea>
-      </div>
-      <button type="submit" class="form-submit">Send Message →</button>
-    </form>
-    <p class="data-policy">🔒 <strong>We do not sell your data to third parties. Period.</strong></p>
-    <p class="whatsapp-alt">
-      Prefer to chat? <a href="https://wa.me/254783944907" target="_blank" rel="noopener">Message us on WhatsApp →</a>
-      &nbsp;|&nbsp; <a href="mailto:vectuz9@gmail.com">vectuz9@gmail.com</a>
-    </p>
-  </div>
-</section>
-
-<!-- ══════════════════════════════ PAYMENT TICKER ══════════════════════════════ -->
-<div class="payment-ticker-wrap">
-  <div class="payment-ticker-label">We Accept</div>
-  <div class="payment-ticker">
-    <div class="ticker-track" id="ticker-track">
-      <!-- built by JS with logos + cube hover -->
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════ CALL BANNER ══════════════════════════════ -->
-<div class="call-banner">
-  📞 Have questions? Call or WhatsApp us now —
-  <a href="tel:+254783944907">0783 944 907</a>
-</div>
-
-<!-- ══════════════════════════════ T&C BANNER ══════════════════════════════ -->
-<div class="tnc-banner">
-  <button id="open-terms-banner" class="tnc-btn">📄 Terms &amp; Conditions</button>
-</div>
-
-<!-- ══════════════════════════════ FOOTER ══════════════════════════════ -->
-<footer>
-  <div>
-    <div class="footer-brand">VECT<span>UZ</span></div>
-    <div class="footer-tagline">Turning business ideas into digital reality — Nairobi, Kenya</div>
-  </div>
-  <div class="footer-links">
-    <a href="#services">Services</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#contact">Contact</a>
-    <a href="#terms" id="open-terms">Terms &amp; Conditions</a>
-    <a href="https://www.instagram.com/vectuz_" target="_blank" rel="noopener">Instagram</a>
-  </div>
-  <p class="footer-copy">© 2026 VECTUZ. All rights reserved. &nbsp;|&nbsp; <span class="footer-data-note">🔒 We never sell your data.</span></p>
-</footer>
-
-<!-- ══════════════════════════════ TERMS MODAL ══════════════════════════════ -->
-<div id="terms-modal" class="terms-modal">
-  <div class="terms-backdrop"></div>
-  <div class="terms-content">
-    <button class="terms-close" id="terms-close">✕</button>
-    <h2>Terms &amp; Conditions</h2>
-    <p class="terms-date">Effective: January 2026 | VECTUZ Web Design, Nairobi, Kenya</p>
-
-    <h3>1. Services</h3>
-    <p>VECTUZ agrees to design and deliver websites as outlined in the agreed package. Deliverables, timelines, and scope will be confirmed in writing before work begins.</p>
-
-    <h3>2. Payment</h3>
-    <p>A 50% deposit is required before work commence
+  
