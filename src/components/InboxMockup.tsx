@@ -122,7 +122,7 @@ export const InboxMockup: React.FC = () => {
                 className="w-full rounded-lg bg-white text-black text-xs font-semibold px-3 py-2 flex items-center justify-center gap-2 shadow-sm hover:bg-white/90 active:scale-[0.98] transition-all"
               >
                 <Sparkles className="w-3.5 h-3.5 text-black" />
-                <span>Compose with Aura</span>
+                <span>Begin your trading journey</span>
               </button>
 
               {/* Nav Items */}
