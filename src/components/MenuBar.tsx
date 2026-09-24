@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Search } from 'lucide-react';
 import { AppleLogo } from './AppleLogo';
 
-const menuItems = ['File', 'Edit', 'View', 'Go', 'Window', 'Help'];
+const menuItems = ['MARKET', 'ACCOUNTS', 'DEPOSITS', 'FAQ', 'Window', 'Help'];
 
 export const MenuBar: React.FC = () => {
   return (
